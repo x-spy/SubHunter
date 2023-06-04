@@ -33,7 +33,7 @@ func request(client *http.Client) (*http.Response, string, error) {
 // Token generator
 func tokenGen() string {
 	const letterString = "0123456789abcdefghijklmnopqrstuvwxyz"
-	rand.Seed(time.Now().UnixNano())
+	rand.NewSource(time.Now().UnixNano())
 	token := make([]byte, 32)
 	for i := range token {
 		token[i] = letterString[rand.Intn(len(letterString))]
