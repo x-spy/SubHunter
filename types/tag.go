@@ -56,20 +56,22 @@ func TagStart(threads int) {
 			defer func() { <-sem }()
 
 			resp, token, err := request(client)
-			defer func(Body io.ReadCloser) {
-				err := Body.Close()
+			if resp != nil {
+				defer func(Body io.ReadCloser) {
+					err := Body.Close()
+					if err != nil {
+						fmt.Println("Failed to close response body, interrupting...")
+						return
+					}
+				}(resp.Body)
+
 				if err != nil {
-					fmt.Println("Failed to close response body, interrupting...")
+					//return
+				}
+				if resp.StatusCode == http.StatusOK {
+					fmt.Println("Available token: " + token + "\n" + "URL: " + getTagUrl(token))
 					return
 				}
-			}(resp.Body)
-
-			if err != nil {
-				//return
-			}
-			if resp.StatusCode == http.StatusOK {
-				fmt.Println("Available token: " + token + "\n" + "URL: " + getTagUrl(token))
-				return
 			}
 		}(client)
 	}

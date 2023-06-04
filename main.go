@@ -3,5 +3,5 @@ package main
 import "SubHunter/types"
 
 func main() {
-	types.TagStart(512)
+	types.TagStart(1024)
 }
