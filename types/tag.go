@@ -65,7 +65,7 @@ func TagStart(threads int) {
 			}(resp.Body)
 
 			if err != nil {
-				return
+				//return
 			}
 			if resp.StatusCode == http.StatusOK {
 				fmt.Println("Available token: " + token + "\n" + "URL: " + getTagUrl(token))
